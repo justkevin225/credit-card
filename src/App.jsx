@@ -36,7 +36,7 @@ const App = () => {
       /\d/g.test(e.nativeEvent.data)
     ) {
       // Créez une instance de l'objet Audio avec le chemin vers votre fichier sonore
-      const audio = new Audio("/noises/beep.mp3");
+      const audio = new Audio("noises/beep.mp3");
       // Jouez le son
       audio.play();
     }
@@ -72,7 +72,7 @@ const App = () => {
       e.currentTarget.value !== cardOwnerDisplayed &&
       e.currentTarget.value !== ""
     ) {
-      const audio = new Audio("/noises/data-beep.mp3");
+      const audio = new Audio("noises/data-beep.mp3");
       audio.play();
     }
     setCardOwnerDisplayed(e.currentTarget.value);
@@ -82,7 +82,7 @@ const App = () => {
       e.currentTarget.value !== CVVDisplayed &&
       e.currentTarget.value !== ""
     ) {
-      const audio = new Audio("/noises/data-beep.mp3");
+      const audio = new Audio("noises/data-beep.mp3");
       audio.play();
     }
     setCVVDisplayed(e.currentTarget.value);
@@ -92,7 +92,7 @@ const App = () => {
       e.currentTarget.value !== monthDisplayed &&
       e.currentTarget.value !== ""
     ) {
-      const audio = new Audio("/noises/data-beep.mp3");
+      const audio = new Audio("noises/data-beep.mp3");
       audio.play();
     }
     setMonthDisplayed(e.currentTarget.value);
@@ -102,7 +102,7 @@ const App = () => {
       e.currentTarget.value !== yearDisplayed &&
       e.currentTarget.value !== ""
     ) {
-      const audio = new Audio("/noises/data-beep.mp3");
+      const audio = new Audio("noises/data-beep.mp3");
       audio.play();
     }
     setYearDisplayed(e.currentTarget.value);
@@ -582,6 +582,7 @@ const App = () => {
                   <div className="mt-[25px]">
                     <Button
                       sx={{
+                        fontFamily: "Kanit",
                         color: "white", // Couleur du texte en blanc
                         borderColor: "white", // Couleur de la bordure en blanc
                         "&:hover": {
