@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Tilt } from "react-tilt";
 import TextField from "@mui/material/TextField";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import TextScramble from "@skits/react-text-scramble";
 import Button from "@mui/material/Button";
 import { BarLoader } from "react-spinners";
@@ -18,6 +18,8 @@ const App = () => {
   const [year, setYear] = useState("");
   const [yearDisplayed, setYearDisplayed] = useState("##");
   const [isLoading, setIsLoading] = useState(true);
+
+  const cardFieldRef = useRef();
 
   const handleCardNumberChange = (e) => {
     // Supprimer tous les caractères non numériques
@@ -41,7 +43,6 @@ const App = () => {
       audio.play();
     }
   };
-
   const handleCVVChange = (e) => {
     // Supprimer tous les caractères non numériques
     let value = e.currentTarget.value.replace(/\D/g, "");
@@ -66,7 +67,6 @@ const App = () => {
     }
     setYear(value);
   };
-
   const handleCardOwnerBlur = (e) => {
     if (
       e.currentTarget.value !== cardOwnerDisplayed &&
@@ -106,6 +106,24 @@ const App = () => {
       audio.play();
     }
     setYearDisplayed(e.currentTarget.value);
+
+    const helperTextElement = cardFieldRef.current.querySelector(
+      ".MuiFormHelperText-root"
+    );
+    if (helperTextElement && e.currentTarget.value[0] !== "4") {
+      helperTextElement.innerHTML = "Only VISA cards are allowed";
+    }
+  };
+  const handleSubmit = () => {
+    const helperTextElement = cardFieldRef.current.querySelector(
+      ".MuiFormHelperText-root"
+    );
+    console.log(helperTextElement)
+    if (helperTextElement && cardNumber[0] !== "4") {
+      helperTextElement.innerHTML = "Only VISA cards are allowed !";
+    } else {
+      helperTextElement.innerHTML = "<p class='my-5'></p>";
+    }
   };
 
   const defaultOptions = {
@@ -128,20 +146,20 @@ const App = () => {
   return (
     <div>
       {isLoading === true ? (
-        <div className="h-screen w-screen bg-black">
+        <div className="h-screen w-screen bg-black font-[Kanit]">
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-32 flex items-center justify-center flex-col">
             <BarLoader color="#fff" />
             <div className="text-white">Un instant...</div>
           </div>
         </div>
       ) : (
-        <div className="bg-black text-white font-[Kanit] p-5">
+        <div className="bg-black h-screen text-white font-[Kanit] p-5">
           {/* HEADER  */}
           <header className="flex justify-center">
             <img
               src="images/mon logo - fond noir.png"
               alt="mon logo"
-              className="w-24"
+              className="w-16"
             />
           </header>
           {/* MAIN  */}
@@ -421,6 +439,7 @@ const App = () => {
                   {/* card owner field */}
                   <TextField
                     id="cardOwner"
+                    helperText=" "
                     label="Card Owner"
                     variant="outlined"
                     className="w-full my-3"
@@ -430,8 +449,6 @@ const App = () => {
                       setCardOwner(e.currentTarget.value);
                     }}
                     sx={{
-                      marginTop: "15px",
-                      marginBottom: "25px",
                       "& .MuiInputLabel-root": {
                         color: "white", // Label en blanc
                         fontFamily: "Kanit",
@@ -455,14 +472,18 @@ const App = () => {
                   />
                   {/* card number field */}
                   <TextField
+                    ref={cardFieldRef}
+                    helperText=" "
                     id="cardNumber"
                     label="Card Number"
                     variant="outlined"
-                    className="w-full my-3"
+                    className="w-full"
                     value={cardNumber}
                     onChange={handleCardNumberChange}
                     sx={{
-                      marginBottom: "25px",
+                      "& .FMuiFormHelperText-contained": {
+                        color: "white", // Label en blanc
+                      },
                       "& .MuiInputLabel-root": {
                         color: "white", // Label en blanc
                         fontFamily: "Kanit",
@@ -581,6 +602,7 @@ const App = () => {
                   </div>
                   <div className="mt-[25px]">
                     <Button
+                      onClick={handleSubmit}
                       sx={{
                         fontFamily: "Kanit",
                         color: "white", // Couleur du texte en blanc
